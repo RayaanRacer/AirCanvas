@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Add your custom styles here */
+        .sidebar {
+            background-color: #333;
+            color: #fff;
+            height: 100vh;
+        }
+        .nav-link.active {
+            color: #fff !important;
+            background-color: #007bff !important;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            /* display: grid; */
+            /* grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); */
+            gap: 20px;
+            padding: 20px;
+            overflow: scroll;
+            height: 100vh;
+            background-color: antiquewhite;
+        }
+
+        .container ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .container img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 0 0 10px;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 0 0 20px;
+        }
+        .img{
+            border: 2px solid black;
+        }
+        /* Modal styles */
+
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/video_feed">New File</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">My Creativity</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Payments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Updates</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                <!-- Top navigation bar -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand" href="#">User Dashboard</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Profile - {{ email }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/logout">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
+                <!-- Page content -->
+                <div class="container">
+                    <div class="pt-3">
+                        <h1>Dashboard</h1>
+                        <p>Welcome to your dashboard!</p>
+                        <div>
+                            <ul>
+                                {% for item in img %}
+                                <li>
+                                    <img class="img" src="{{item['url']}}" width="200" height="200">
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <div id="myModal" class="modal" style="background-color: #333;">
+        <span style="cursor:pointer; float:left; margin-left: 10px; color: aliceblue; background-color: red;font-weight: bolder; border-radius: 5%;" >Delete</span>
+        <span class="close" style="cursor:pointer; float:right; margin-right: 10px; color: aliceblue; background-color: red;">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+    <script type="module">
+        async function deleteImage(id) {
+            console.log(id);
+            try {
+                const response = await fetch('http://localhost:8080/user/api/v1/deleteImage', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        imageID: '6611caa7c7e41737fd18fa74'
+                    })
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                console.log(data);
+            } catch (error) {
+                console.error('There was a problem with your fetch operation:', error);
+            }
+        }
+
+    </script>
+
+    <script>
+var modal = document.getElementById('myModal');
+var modalImg = document.getElementById("modalImage");
+
+// Loop through all images and add onclick event listener
+var images = document.getElementsByClassName('img');
+for (var i = 0; i < images.length; i++) {
+    images[i].addEventListener('click', function() {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        modal.style.width = "800px"; // Set the width of the modal
+        modal.style.height = "600px"; // Set the height of the modal
+        modal.style.marginLeft = "20%";
+        modal.style.border = "2px solid black";
+    });
+}
+
+// Close the modal when the close button is clicked
+var closeButton = document.getElementsByClassName("close")[0];
+closeButton.onclick = function() {
+    modal.style.display = "none";
+};
+
+    </script>
+    
+    
+    
+    <!-- Bootstrap JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Highlight active navigation link
+            $('.nav-link').click(function() {
+                $('.nav-link').removeClass('active');
+                $(this).addClass('active');
+            });
+        });
+    </script>
+</body>
+</html>

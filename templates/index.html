@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIR CANVAS</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-image: url('https://www.begindot.com/wp-content/uploads/2019/01/Grunge-Textures.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+}
+
+.container {
+    padding: 50px 0;
+}
+
+h1 {
+    font-size: 3rem;
+    color: #fdfdfd;
+}
+
+p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">AIR CANVAS</a>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Welcome to AIR CANVAS</h1>
+                <p>Your ultimate destination for artistic inspiration.</p>
+                <button class="btn btn-primary" id="get-started">Get Started</button>
+            </div>
+            <div class="col-md-6">
+                <img src="https://media.licdn.com/dms/image/D5612AQGys8i58XR67g/article-cover_image-shrink_720_1280/0/1698330135309?e=2147483647&v=beta&t=99uyKHEjI3erTpJZTmNvo5_UBRStAcSRL7tunS9qgAg" alt="Air Canvas" class="img-fluid">
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST">
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp"
+                                placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                        </div>
+                        <button type="submit" value="Login" class="btn btn-primary">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>$('#get-started').click(function() {
+        $('#loginModal').modal('show');
+    });</script>
+</body>
+
+</html>
