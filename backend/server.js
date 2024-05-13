@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import connectDb from "./config/configDB.js";
 import morgan from "morgan";
 import userRoutes from "./routes/userRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 // import doctorRoutes from "./routes/doctorRoutes.js";
 // import appointmentRoute from "./routes/appointmentRoutes.js";
 // import notificationRoute from "./routes/notificationRoutes.js";
@@ -23,6 +24,7 @@ app.use(morgan("dev"));
 // connect mongoDB
 connectDb(MongoDBURI);
 app.use("/user/api/v1", userRoutes);
+app.use("/admin/api/v1", adminRoutes);
 
 app.listen(
   PORT,

@@ -269,6 +269,44 @@
             width: 50%;
             box-shadow: 2px 2px 10px black;
         }
+        .user-list{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: scroll;
+        }
+        .user-list-1{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-evenly;
+            background-color: black;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            height: 40px;
+        }
+        .user-list-2{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-evenly;
+            background-color: rgb(33, 89, 220);
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            height: 40px;
+            margin-top: 5px;
+        }
+        .user-list-name, .user-list-email, .user-list-phone, .user-list-name-heading, .user-list-email-heading, .user-list-phone-heading{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 33%;
+        }
         
     </style>
 </head>
@@ -278,20 +316,34 @@
             AIR CANVAS
         </div>
         <div class="left-bottom">
-            <div class="left-bottom-1">
-                <i class="fa-solid fa-gauge"></i>&nbsp; Dashboard
-            </div>
+            <a href="/admin-login"><div class="left-bottom-1" style="cursor: pointer; text-decoration: none;">
+                <i class="fa-solid fa-gauge"></i>&nbsp;Admin Dashboard
+            </div></a>
+            
             <div class="left-bottom-2">
                 <div class="left-bottom-2-heading">
-                    PERSONAL
+                    USER DATA
                 </div>
-                <div class="left-bottom-2-new-file">
+                <div class="left-bottom-2-new-file" style="background-color: #747474;">
                     <i class="fa-regular fa-square-plus"></i> &nbsp; <a style="font-family: Arial, Helvetica, sans-serif;
-                    color: rgb(206, 206, 206);text-decoration: none;" href="/video_feed">New File</a>
+                    color: rgb(206, 206, 206);text-decoration: none;" href="/user-list" >USER LIST</a>
+                    <form id="user-list" method="GET" action="/user-list">
+                        <input type="hidden" name="adminId" id={{id}}>
+                        <div id="admin-id" style="display: none;">{{id}}</div>
+                    </form>
+                    <script>
+                        function userListGet(){
+                            const adminform = document.getElementById('user-list');
+                            const adminIdInput = document.getElementById('admin-id').innerHTML;
+                            document.getElementById('adminId').value = adminIdInput;
+                            // document.getElementById('adminValueId').value = document.getElementById('adminId').innerHTML;
+                            adminform.submit();
+                        }
+                    </script>
                 </div>
-                <div class="left-bottom-2-my-file">
+                <div class="left-bottom-2-my-file" >
                     <i class="fa-solid fa-file-image"></i> &nbsp; <a style="font-family: Arial, Helvetica, sans-serif;
-                    color: rgb(206, 206, 206);text-decoration: none;" href="/myCreativity">My Creativity</a>
+                    color: rgb(206, 206, 206);text-decoration: none;" href="/adminDeleteUserPage">DELETE USER</a>
                 </div>
             </div>
             <div class="left-bottom-2" style="margin-top: 50px;">
@@ -300,7 +352,7 @@
                 </div>
                 <div class="left-bottom-2-new-file">
                     <i class="fa-solid fa-money-check-dollar"></i> &nbsp; <a style="font-family: Arial, Helvetica, sans-serif;
-                    color: rgb(206, 206, 206);text-decoration: none;" href="/payments">Payments</a>
+                    color: rgb(206, 206, 206);text-decoration: none;" href="/payments">PAYMENT LIST</a>
                 </div>
                 <div class="left-bottom-2-my-file">
                     <i class="fa-regular fa-bell"></i> &nbsp; Notification
@@ -348,7 +400,42 @@
             </div>
         </div>
         <div class="right-body">
-            <img src="https://infoaryan.com/wp-content/uploads/2020/06/admin-ajax.php-16-2.jpeg" alt="">
+            <div id="artDisplay" class="container">
+                <div class="pt-3">
+                    <h1>Dashboard</h1>
+                    <p>Welcome to your dashboard!</p>
+                    <div>
+                            <div class="user-list">
+                                <div class="user-list-1">
+                                    <div class="user-list-name-heading">
+                                        Name
+                                    </div>
+                                    <div class="user-list-email-heading">
+                                        Email
+                                    </div>
+                                    <div class="user-list-phone-heading">
+                                        Phone
+                                    </div>
+                                </div>
+                                
+                            {% for item in users %}
+                                <div class="user-list-2">
+                                    <div class="user-list-name">
+                                        {{item['name']}} 
+                                    </div>
+                                    <div class="user-list-email">
+                                        {{item['email']}} 
+                                    </div>
+                                    <div class="user-list-phone">
+                                        {{item['phone']}}
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+                        
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

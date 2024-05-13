@@ -6,14 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AIR CANVAS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Briem+Hand:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
     font-family: Arial, sans-serif;
-    background-image: url('https://www.begindot.com/wp-content/uploads/2019/01/Grunge-Textures.jpg');
+    /* background-image: url('https://www.begindot.com/wp-content/uploads/2019/01/Grunge-Textures.jpg');
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
     
 }
 
@@ -40,22 +44,279 @@ p {
     background-color: #0056b3;
 }
 
+*{
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+}
+.nav-bar{
+    width: 100%;
+    height: 200px;
+    position: fixed;
+    top:0px;
+    left: 0px;
+    box-shadow: 2px 2px 20px black;
+}
+.nav-bar-top{
+    width: 100%;
+    height: 100px;
+    background-image: linear-gradient(to right, rgb(23, 255, 77), rgb(163, 177, 7));
+}
+.nav-bar-top-left{
+    width: 30%;
+    height: 100%;
+    float: left;
+}
+.nav-bar-top-left-logo{
+    width: 23%;
+    height: 100%;
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #292929;
+}
+.nav-bar-top-left-logo img{
+    width: 100%;
+}
+.nav-bar-top-left-name{
+    width: 77%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 35px;
+    font-family: "Briem Hand", cursive;
+    font-optical-sizing: auto;
+    font-weight: bolder;
+    font-style: normal;
+    color: #ffffff;
+    padding-left: 20px;
+    background-color: #292929;
+}
+.nav-bar-top-middle{
+    width: 50%;
+    height: 100%;
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 20px;
+}
+.nav-bar-top-right{
+    width: 20%;
+    height: 100%;
+    float: left;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.nav-bar-top-middle-button{
+    background-color: #007bff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    width: 150px;
+    height: 50px;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+}
+.nav-bar-top-middle-button:hover{
+    background-color: white;
+    border: 1px solid #007bff;
+    cursor: pointer;
+    color: #007bff;
+}
+.nav-bar-top-middle-button-1{
+    width: 80%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-family: "Dancing Script", cursive;
+    font-optical-sizing: auto;
+    font-weight: bolder;
+    font-style: normal;
+    font-size: 40px;
+    letter-spacing: 1px;
+    border-right: 1px solid #013163;
+    margin-right: 10px;
+}
+.nav-bar-top-right-button{
+    background-color: rgb(215, 215, 215);
+    height: 90%;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+.nav-bar-top-right-1{
+    width: 100%;
+    text-align: center;
+    color: #007bff;
+    font-size: 15px;
+    margin-top: 20px;
+
+}
+.nav-bar-top-right-2{
+    width: 50%;
+    text-align: center;
+    color: #fbfcfd;
+    font-size: 18px;
+    padding: 5px;
+    background-color: #ef10e4;
+    font-weight: bolder;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+.nav-bar-top-right-2:hover{
+    cursor: pointer;
+    border: 1px solid #ef10e4;
+    color: #ef10e4;
+    background-color: white;
+}
+.nav-bar-bottom{
+    height: 100px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-image: linear-gradient(to right, black, rgb(117, 153, 7));
+}
+.nav-bar-bottom-1{
+    width: 19.5%;
+    height: 100%;
+    background-color: #007bff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+}
+.nav-bar-bottom-1:hover{
+    background-color: white;
+    color: #007bff;
+    border: 1px solid #007bff;
+    cursor: pointer;
+}
+.body{
+    height: 100vh;
+    width: 100%;
+    background-image: url('https://img.freepik.com/free-vector/colourful-dynamic-flow-background_52683-42964.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-top: 200px;
+}
+.body-left{
+    float: right;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-left: 50px;
+    padding-top: 100px;
+}
+.body-left h1{
+    color: black;
+    font-weight: bolder;
+}
+.body-left p{
+    color: rgb(109, 109, 109);
+    font-weight: bolder;
+}
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">AIR CANVAS</a>
-    </nav>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
+    <div class="nav-bar">
+        <div class="nav-bar-top">
+            <div class="nav-bar-top-left">
+                <div class="nav-bar-top-left-logo">
+                    <img src="https://cdn.dribbble.com/userupload/11916256/file/original-8800726c4c06ec86c380ec224f375855.jpg?resize=400x0" alt="logo">
+                </div>
+                <div class="nav-bar-top-left-name">
+                    AIR CANVAS
+                </div>
+            </div>
+            <div class="nav-bar-top-middle">
+                <div class="nav-bar-top-middle-button-1">
+                    Design The World
+                </div>
+                <div class="nav-bar-top-middle-button" onclick="openRegistration();">
+                    Register
+                </div>
+                
+            </div>
+            <div class="nav-bar-top-right">
+                <div class="nav-bar-top-right-button">
+                    <div class="nav-bar-top-right-1">
+                        Already a member?
+                    </div>
+                    <div class="nav-bar-top-right-2" onclick="openLogin()">
+                        Sign In
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="nav-bar-bottom">
+            <div class="nav-bar-bottom-1">
+                Home
+            </div>
+            <div class="nav-bar-bottom-1">
+                Create Art
+            </div>
+            <div class="nav-bar-bottom-1">
+                View Art
+            </div>
+            <div class="nav-bar-bottom-1">
+                Online Payment
+            </div>
+            <div class="nav-bar-bottom-1">
+                Affordable
+            </div>
+        </div>
+    </div>
+
+    <div class="body">
+        <div class="body-left">
+            <div class="body-left-col">
                 <h1>Welcome to AIR CANVAS</h1>
                 <p>Your ultimate destination for artistic inspiration.</p>
                 <button class="btn btn-primary" id="get-started">Get Started</button>
             </div>
-            <div class="col-md-6">
-                <img src="https://media.licdn.com/dms/image/D5612AQGys8i58XR67g/article-cover_image-shrink_720_1280/0/1698330135309?e=2147483647&v=beta&t=99uyKHEjI3erTpJZTmNvo5_UBRStAcSRL7tunS9qgAg" alt="Air Canvas" class="img-fluid">
+        </div>
+    </div>
+
+    <!-- Admin Modal -->
+    <div class="modal" id="adminModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"  style="background-color: rgb(21, 201, 27); color: white;">
+                    <h5 class="modal-title">Admin Login</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="/admin-login">
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp"
+                                placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                        </div>
+                        <button type="submit" value="Login" class="btn btn-primary" style="float: left;">Login</button>
+                        <div id="registerClicked"  style="float: right; cursor: pointer; color: #007bff; font-weight: bolder;">Register Here</div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -64,9 +325,11 @@ p {
     <div class="modal" id="loginModal">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header"  style="background-color: rgb(21, 201, 27); color: white;">
                     <h5 class="modal-title">Login</h5>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" style="float: right;margin-left: 200px;" id="adminOpener">Admin</button>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+
                 </div>
                 <div class="modal-body">
                     <form method="POST">
@@ -79,12 +342,50 @@ p {
                             <label for="password">Password</label>
                             <input type="password" name="password" class="form-control" id="password" placeholder="Password">
                         </div>
-                        <button type="submit" value="Login" class="btn btn-primary">Login</button>
+                        <button type="submit" value="Login" class="btn btn-primary" style="float: left;">Login</button>
+                        <div id="registerClicked"  style="float: right; cursor: pointer; color: #007bff; font-weight: bolder;">Register Here</div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+
+        <!-- Registration Modal -->
+        <div class="modal" id="registerModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header"  style="background-color: rgb(21, 201, 27); color: white;">
+                        <h5 class="modal-title">Registration</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="/register">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" name="name" class="form-control" id="name" aria-describedby="emailHelp"
+                                    placeholder="Enter Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" name="phone" class="form-control" id="phone" aria-describedby="emailHelp"
+                                    placeholder="Enter Phone" required>
+                            </div>  
+                            <div class="form-group">
+                                <label for="email">Email address</label>
+                                <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp"
+                                    placeholder="Enter email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+                            </div>
+                            <button type="submit" value="Register" class="btn btn-primary">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
@@ -92,6 +393,21 @@ p {
     <script>$('#get-started').click(function() {
         $('#loginModal').modal('show');
     });</script>
+    <script>$('#registerClicked').click(function() {
+        $('#registerModal').modal('show');
+    });
+    $('#adminOpener').click(function(){
+        $('#adminModal').modal('show');
+    })
+    </script>
+    <script>
+        function openRegistration(){
+            $('#registerModal').modal('show');
+        }
+        function openLogin(){
+            $('#loginModal').modal('show');
+        }
+    </script>
 </body>
 
 </html>

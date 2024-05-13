@@ -17,7 +17,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydb.db'
 db = SQLAlchemy(app)
 app.secret_key = 'aabrakadaabra'
 
-def getImages(userID,email):
+def getImages(userID,name):
         response = requests.get('http://localhost:8080/user/api/v1/sendImage', json={'userID': userID})
         if response.status_code == 200:
             # Login successful, redirect to video_feed
@@ -42,16 +42,188 @@ def logout():
     session.pop('userID', None)
     return redirect(url_for('login'))
 
+@app.route('/create-order',methods=['GET', 'POST'])
+def create_order():
+    if 'userID' in session:
+        userId = session['userID']
+
+        # Make a request to the REST API
+        response = requests.post('http://localhost:8080/user/api/v1/create-order', json={'userId': userId, 'amount': '50'})
+
+        if response.status_code == 200:
+            # Login successful, redirect to video_feed
+            data = response.json()
+            session['razorpayKeyId'] = data['data']['razorpayKeyId']
+            session['orderId'] = data['data']['id']
+            return render_template('Payment.html', name=session['name'], id =session['userID'], razorpayKeyId = session['razorpayKeyId'], orderId=session['orderId'])
+        else:
+            # Login failed, show an error message
+            return render_template('index.html', error='Invalid email or password')
+
+
+@app.route('/payments')
+def payments():
+    if 'userID' in session:
+        # return redirect(url_for('userDashboard',email=session['email']))
+        # getImages(session['userID'], session['name'])
+        return render_template('Payment.html', name=session['name'], id =session['userID'] )
+    else:
+        # Login failed, show an error message
+        return render_template('index.html', error='Invalid email or password')
+    
 @app.route('/userDashboard')
 def userDashboard():
-    return render_template('userDashboard.html')
+    if 'userID' in session:
+        # return redirect(url_for('userDashboard',email=session['email']))
+        getImages(session['userID'], session['name'])
+        return render_template('userDashboard.html',img=session['img'], name=session['name'], id =session['userID'] )
+    else:
+        # Login failed, show an error message
+        return render_template('index.html', error='Invalid email or password')
+
+@app.route('/myCreativity')
+def myCreativity():
+    if 'userID' in session:
+        # return redirect(url_for('userDashboard',email=session['email']))
+        getImages(session['userID'], session['name'])
+        return render_template('myCreativity.html',img=session['img'], name=session['name'], id =session['userID'] )
+    else:
+        # Login failed, show an error message
+        return render_template('index.html', error='Invalid email or password')
+
+@app.route("/admin-login", methods=['GET', 'POST'])
+def admin_login():
+    if 'adminId' in session:
+        return render_template('adminDashboard.html', name=session['admin_name'], id =session['adminId'],email=session['admin_email'] )
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        # Make a request to the REST API
+        response = requests.post('http://localhost:8080/admin/api/v1/admin-login', json={'email': email, 'password': password})
+
+        if response.status_code == 200:
+            # Login successful, redirect to video_feed
+            data = response.json()
+            session['admin_name'] = data['data']['name']
+            session['adminId'] = data['data']['_id']
+            session['admin_email'] = data['data']['email']
+            return render_template('adminDashboard.html', name=session['admin_name'], id =session['adminId'],email=session['admin_email'] )
+        else:
+            # Login failed, show an error message
+            return render_template('index.html', error='Invalid email or password')
+    return render_template('index.html', error=None)
+
+@app.route("/adminDeleteUserPage")
+def admin_delete_list():
+    if 'adminId' in session:
+        if request.method == 'GET':
+            response = requests.get('http://localhost:8080/admin/api/v1/user-list', json={'adminId':session['adminId']} )
+            data = response.json()
+            if response.status_code == 200:
+                print(data['data'])
+                session['user_list'] = []
+                for item in data['data']:
+                    key_object_pair = {
+                    "name": item['name'],
+                    "_id": item["_id"],
+                    "email": item["email"],
+                    "phone": item["phone"]
+                    }
+                    session['user_list'].append(key_object_pair)
+                print(session['user_list'])
+                return render_template('adminDeleteUserPage.html', users=session['user_list'], name=session['admin_name'])
+    else:
+        return render_template('index.html', error=None)
+
+
+
+@app.route("/user-list")
+def user_list():
+    if 'adminId' in session:
+        if request.method == 'GET':
+            response = requests.get('http://localhost:8080/admin/api/v1/user-list', json={'adminId':session['adminId']} )
+            data = response.json()
+            if response.status_code == 200:
+                print(data['data'])
+                session['user_list'] = []
+                for item in data['data']:
+                    key_object_pair = {
+                    "name": item['name'],
+                    "_id": item["_id"],
+                    "email": item["email"],
+                    "phone": item["phone"]
+                    }
+                    session['user_list'].append(key_object_pair)
+                print(session['user_list'])
+                return render_template('adminUserList.html', users=session['user_list'], name=session['admin_name'])
+    else:
+        return render_template('index.html', error=None)
+    
+  
+
+@app.route("/payment-list")
+def payment_list():
+    if 'adminId' in session:
+        if request.method == 'GET':
+            response = requests.get('http://localhost:8080/admin/api/v1/payment-list', json={'adminId':session['adminId']})
+            data = response.json()
+            if response.status_code == 200:
+                session['payment-list'] = []
+                for item in data['data']:
+                    key_object_pair = {
+                    "user": item['userId'],
+                    "_id": item["_id"],
+                    "totalAmount": item['totalAmount'],
+                    "paymentStatus":item['paymentStatus'],
+                    }
+                    session['payment-list'].append(key_object_pair)
+                print(session['payment-list'])
+                return render_template('paymentList.html', name=session['admin_name'], payment_list=session['payment-list'])
+    else:
+        return render_template('index.html', error=None)
+    
+@app.route("/delete-user", methods=['GET',"POST"])
+def user_delete():
+    if 'adminId' in session:
+        if request.method == 'POST':
+            userId = request.form['userId']
+            response = requests.delete('http://localhost:8080/admin/api/v1/delete-user', json={'adminId':session['adminId'], 'userId':userId})
+            if response.status_code == 200:
+                print("deleted")
+                response = requests.get('http://localhost:8080/admin/api/v1/user-list', json={'adminId':session['adminId']} )
+                data = response.json()
+                if response.status_code == 200:
+                    print(data['data'])
+                    session['user_list'] = []
+                    for item in data['data']:
+                        key_object_pair = {
+                        "name": item['name'],
+                        "_id": item["_id"],
+                        "email": item["email"],
+                        "phone": item["phone"]
+                        }
+                        session['user_list'].append(key_object_pair)
+                    print(session['user_list'])
+                    return render_template('adminDeleteUserPage.html', users=session['user_list'], name=session['admin_name'])
+                else:
+                    return render_template('index.html', error=None)
+            else:
+                print(response['message'])
+
+                
+    else:
+        return render_template('index.html', error=None)
+
+
+
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
-    if 'email' in session:
+    if 'userID' in session:
         # return redirect(url_for('userDashboard',email=session['email']))
-        getImages(session['userID'], session['email'])
-        return render_template('userDashboard.html',img=session['img'], email=session['email'], id =session['userID'] )
+        getImages(session['userID'], session['name'])
+        return render_template('userDashboard.html',img=session['img'], name=session['name'], id =session['userID'] )
         # return render_template('userDashboard.html', email=session['email'], id = session['userID'])
     if request.method == 'POST':
         email = request.form['email']
@@ -63,9 +235,9 @@ def login():
         if response.status_code == 200:
             # Login successful, redirect to video_feed
             data = response.json()
-            session['email'] = data['name']
+            session['name'] = data['name']
             session['userID'] = data['userID']
-            return render_template('userDashboard.html', email=session['email'], id =session['userID'] )
+            return render_template('userDashboard.html', name=session['name'], id =session['userID'] )
         else:
             # Login failed, show an error message
             return render_template('index.html', error='Invalid email or password')
@@ -83,9 +255,44 @@ def login():
 # def login():
 #     return render_template("login.html")
 
-@app.route("/register")
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    return render_template("register.html")
+    if request.method == 'POST':
+        # Get form data
+        name = request.form.get('name')
+        phone = request.form.get('phone')
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        # Prepare data for API request
+        data = {
+            'name': name,
+            'phone': phone,
+            'email': email,
+            'password': password
+        }
+
+        # Make a request to the API
+        response = requests.post('http://localhost:8080/user/api/v1/register', json=data)
+
+        if response.status_code == 200:
+            data = response.json()
+            print(data)
+            session['name'] = data['data']['name']
+            session['email'] = data['data']['email']
+            session['phone'] = data['data']['phone']
+            session['userID'] = data['data']['_id']
+
+            # session['userID'] = response.data['userID']
+            return render_template('userDashboard.html', email=session['email'], name=session['name'], id=session['userID'] )
+        else:
+            return render_template('index.html', error='Some Error Exists.')
+
+    return render_template('register.html')
+
+# @app.route("/register")
+# def register():
+#     return render_template("register.html")
 
 @app.route('/video_feed')
 def video_feed():

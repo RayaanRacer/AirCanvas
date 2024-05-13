@@ -6,6 +6,9 @@ import { v2 as cloudinary } from "cloudinary";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import multer from "multer";
 import imageModel from "../models/imageModel.js";
+import razorpay from "../config/razorpayConfig.js";
+import Payment from "../models/PaymentModel.js";
+import crypto from "crypto";
 
 // Configure Cloudinary
 cloudinary.config({
@@ -181,7 +184,110 @@ const deleteImage = asyncHandler(async (req, res) => {
   return res.status(200).json({ message: "Image deleted successfully" });
 });
 
+const createRazorpayOrder = async (req, res) => {
+  const { userId, amount } = req.body;
+  if (!userId || !amount)
+    return res
+      .status(400)
+      .json({ message: "Provide user id.", success: false });
+  const options = {
+    amount: 50 * 100,
+    currency: "INR",
+  };
+
+  const { id, status } = await razorpay.orders.create(options);
+  if (status !== "created")
+    return res.status(400).json({ message: "Order is not created" });
+
+  const orderData = {
+    id,
+    amount: amount * 100,
+    currency: "INR",
+    razorpayKeyId: process.env.RAZORPAY_KEY_ID,
+  };
+  const createdOrder = new Payment({
+    userId,
+    paymentDate: Date.now(),
+    totalAmount: amount,
+    razorpayOrderId: id,
+  });
+  const result = await createdOrder.save();
+  if (!result)
+    return res
+      .status(400)
+      .json({ message: "Order is not saved", success: false });
+  return res.status(200).json({ data: orderData, success: true });
+};
+
+const verifySignature = async (req, res) => {
+  const { razorpay_payment_id, razorpay_order_id, razorpay_signature } =
+    req.body;
+  const hmac = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET);
+  hmac.update(razorpay_order_id + "|" + razorpay_payment_id);
+  const generatedSignature = hmac.digest("hex");
+  if (generatedSignature === razorpay_signature) {
+    await Payment.findOneAndUpdate(
+      { razorpayOrderId: razorpay_order_id },
+      {
+        paymentStatus: "Fully Paid",
+        razorpaySignature: razorpay_signature,
+        razorpayPaymentId: razorpay_payment_id,
+        paymentDate: Date.now(),
+      },
+      { new: true }
+    );
+    return res.status(200).json({ success: true });
+  }
+  return res.status(400).json({ success: false });
+};
+
+const checkStatus = async (req, res) => {
+  const { orderID } = req.body;
+  if (!orderID)
+    return res
+      .status(400)
+      .json({ message: "Provide order ID.", success: false });
+  const order = await Payment.findOne({ razorpayOrderId: orderID });
+  if (order.paymentStatus === "Fully Paid")
+    return res.status(200).json({ message: "Order is paid", success: true });
+  console.log(order);
+  return res
+    .status(400)
+    .json({ message: "Order Payment is pending.", success: false });
+};
+
+const userApprove = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+  if (!userId)
+    return res
+      .status(400)
+      .json({ message: "Provide User Id.", success: false });
+  const userExist = await Payment.find({
+    userId: userId.trim(),
+    paymentStatus: "Fully Paid",
+  });
+  if (userExist.length === 0)
+    return res
+      .status(400)
+      .json({ message: "Do payment first", success: false });
+  return res.status(200).json({ message: "Approved", success: true });
+});
+
+const getPaymentList = asyncHandler(async (req, res) => {
+  const userId = req.params.userId;
+  if (!userId) return res.status(400).json({ message: "Provide Doctor ID" });
+  const paymentList = await Payment.find({ userId: userId })
+    .select(" totalAmount paymentStatus paymentDate updatedAt")
+    .populate([{ path: "userId", select: "name phone" }]);
+  if (paymentList.length === 0)
+    return res.status(200).json({ message: "No Payments found" });
+  return res
+    .status(200)
+    .json({ message: "Payment List Sent", data: paymentList });
+});
+
 export {
+  getPaymentList,
   loginController,
   registerController,
   authController,
@@ -189,4 +295,8 @@ export {
   userImageUploader,
   imageSender,
   deleteImage,
+  createRazorpayOrder,
+  checkStatus,
+  verifySignature,
+  userApprove,
 };

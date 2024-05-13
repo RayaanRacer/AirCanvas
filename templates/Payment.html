@@ -259,17 +259,115 @@
             cursor: pointer;
         }
         .right-body{
+            width: 100%;
+            height: 80%;
+            background-color: rgb(237, 237, 237);
+        }
+        .right-body-top{
+            width: 100%;
+            height: 20%;
+            border: 1px solid black;
+            background-color: #5c06d5;
+        }
+        .right-body-bottom{
+            width: 100%;
+            height: 80%;
+            padding-top: 20px;
+            margin-top: 10px;
+            box-shadow: 2px 2px 10px black;
+            background-color: #b8d7f8;
+        }
+        .right-body-top-heading{
+            padding-left: 20px;
+            padding-top: 20px;
+            font-size: 25px;
+            color: #252525;
+            color: rgb(252, 248, 248);
+            font-weight: bolder;
+        }
+        .right-body-top-description{
+            padding-left: 20px;
+            font-size: 17px;
+            color: rgb(252, 248, 248);
+        }
+        .right-body-bottom{
+            width: 80%;
+            height: 350px;
+            margin-left: 20px;
+            border-radius: 20px;
+        }
+        .right-body-bottom-1{
+            height: 50px;
+            width: 100%;
+            border-bottom: 1.4px solid rgb(152, 152, 152);
+            font-weight: 600;
+        }
+        .right-body-bottom-1:hover{
+            background-color: rgb(162, 162, 162);
+            cursor: pointer;
+        }
+        .right-body-bottom-1-left{
+            width: 10%;
+            height: 100%;
+            float: left;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 100%;
-            height: 100%;
         }
-        .right-body img{
+        .right-body-bottom-1-middle{
+            width: 40%;
+            height: 100%;
+            float: left;
+        }
+        .right-body-bottom-1-right{
             width: 50%;
+            height: 100%;
+            float: left;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 20px;
+        }
+        .right-body-bottom-1-left-roll{
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid grey;
+        }
+        .right-body-bottom-1-middle{
+            display: flex;
+            align-items: center;
+            font-size: 19px;
+            padding-left: 10px;
+            color: #252525;
+        }
+        .right-body-bottom-1-right img{
+            width: 50px;
+        }
+        .right-body-bottom-2{
+            height: 100px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+        }
+        .create-order button{
+            background-color: rgb(189, 202, 0);
+            color: black;
+            font-weight: bolder;
+            align-items: center;
+            text-align: center;
+            padding: 10px;
+            border-radius: 20px;
             box-shadow: 2px 2px 10px black;
         }
-        
+        .create-order button:hover{
+            color: rgb(189, 202, 0);
+            background-color: white;
+            border: 1px solid rgb(189, 202, 0);
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -279,7 +377,8 @@
         </div>
         <div class="left-bottom">
             <div class="left-bottom-1">
-                <i class="fa-solid fa-gauge"></i>&nbsp; Dashboard
+                <i class="fa-solid fa-gauge"></i>&nbsp; <a style="font-family: Arial, Helvetica, sans-serif;
+                color: rgb(206, 206, 206);text-decoration: none;" href="/userDashboard">Dashboard</a>
             </div>
             <div class="left-bottom-2">
                 <div class="left-bottom-2-heading">
@@ -291,7 +390,7 @@
                 </div>
                 <div class="left-bottom-2-my-file">
                     <i class="fa-solid fa-file-image"></i> &nbsp; <a style="font-family: Arial, Helvetica, sans-serif;
-                    color: rgb(206, 206, 206);text-decoration: none;" href="/myCreativity">My Creativity</a>
+                    color: rgb(206, 206, 206);text-decoration: none;" href="/myCreativity">My Creativity</a> 
                 </div>
             </div>
             <div class="left-bottom-2" style="margin-top: 50px;">
@@ -299,8 +398,8 @@
                     UPDATES
                 </div>
                 <div class="left-bottom-2-new-file">
-                    <i class="fa-solid fa-money-check-dollar"></i> &nbsp; <a style="font-family: Arial, Helvetica, sans-serif;
-                    color: rgb(206, 206, 206);text-decoration: none;" href="/payments">Payments</a>
+                    <i class="fa-solid fa-money-check-dollar"></i> &nbsp;<a style="font-family: Arial, Helvetica, sans-serif;
+                    color: rgb(206, 206, 206);text-decoration: none;" href="/payments">Payment</a> 
                 </div>
                 <div class="left-bottom-2-my-file">
                     <i class="fa-regular fa-bell"></i> &nbsp; Notification
@@ -348,7 +447,160 @@
             </div>
         </div>
         <div class="right-body">
-            <img src="https://infoaryan.com/wp-content/uploads/2020/06/admin-ajax.php-16-2.jpeg" alt="">
+            <div class="right-body-top">
+                <div class="right-body-top-heading">
+                    Payment
+                </div>
+                <div class="right-body-top-description">
+                    All Transactions are encypted and secure.
+                </div>
+            </div>
+            <div class="right-body-bottom" >
+                <div class="right-body-bottom-1" onclick="orderDone();">
+                    <div class="right-body-bottom-1-left">
+                        <div class="right-body-bottom-1-left-roll">
+
+                        </div>
+                    </div>
+                    <div class="right-body-bottom-1-middle">
+                        Credit Card
+                    </div>
+                    <div class="right-body-bottom-1-right">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW0hjzb0wLi3Oikc4HYopKck70I6lqmaUfff1EdM1jng&s" alt="">
+                    </div>
+                </div>
+                <div class="right-body-bottom-1" onclick="orderDone();">
+                    <div class="right-body-bottom-1-left">
+                        <div class="right-body-bottom-1-left-roll">
+
+                        </div>
+                    </div>
+                    <div class="right-body-bottom-1-middle">
+                        Debit Card
+                        
+                    </div>
+                    <div class="right-body-bottom-1-right">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW0hjzb0wLi3Oikc4HYopKck70I6lqmaUfff1EdM1jng&s" alt="">
+                        
+                    </div>
+                </div>
+                <div class="right-body-bottom-1" onclick="orderDone();">
+                    <div class="right-body-bottom-1-left">
+                        <div class="right-body-bottom-1-left-roll">
+                        </div>
+                    </div>
+                    <div class="right-body-bottom-1-middle">
+                        UPI
+                        
+                    </div>
+                    <div class="right-body-bottom-1-right">
+                        <img src="https://logowik.com/content/uploads/images/upi-unified-payments-interface4949.logowik.com.webp" alt="">
+                    </div>
+                </div>
+                <div class="right-body-bottom-1" onclick="orderDone();">
+                    <div class="right-body-bottom-1-left">
+                        <div class="right-body-bottom-1-left-roll">
+                        </div>
+                    </div>
+                    <div class="right-body-bottom-1-middle">
+                        Razorpay
+                        
+                    </div>
+                    <div class="right-body-bottom-1-right">
+                        <img src="https://w7.pngwing.com/pngs/88/578/png-transparent-razorpay-logo-thumbnail-tech-companies-thumbnail.png" alt="">
+                    </div>
+                </div>
+                <div class="right-body-bottom-2">
+                    <div class="create-order"><form method="POST" action="/create-order">
+                        <input type="hidden" name="userId" value={{id}}>
+                        <button type="submit" onclick="()=>{document.getElementById('rzp-button1').style.display='block'}"> Create Order</button>
+                    </form>
+                    </div>
+                </div>
+            </div>
+            <div id="orderIdGet" style="display: none;">{{orderId}}</div>
+            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                        <script>
+                            var orderId = document.getElementById('orderIdGet').innerHTML;
+                        var options = {
+                            "key": "rzp_test_2nFoeUFeOXBMIC", // Enter the Key ID generated from the Dashboard
+                            "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                            "currency": "INR",
+                            "name": "AIR CANVAS",
+                            "description": "Test Transaction",
+                            "image": "https://cdn.dribbble.com/userupload/11916256/file/original-8800726c4c06ec86c380ec224f375855.jpg?resize=400x0",
+                            "order_id": orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                            "handler": function (response){
+                                postData(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature);
+                                
+                            },
+                            "prefill": {
+                                "name": {name},
+                                "email": "gaurav.kumar@example.com",
+                                "contact": "9000090000"
+                            },
+                            "notes": {
+                                "address": "AIR CANVAS Corporate Office"
+                            },
+                            "theme": {
+                                "color": "#3399cc"
+                            }
+                        };
+                        var rzp1 = new Razorpay(options);
+                        rzp1.on('payment.failed', function (response){
+                                alert(response.error.code);
+                                alert(response.error.description);
+                                alert(response.error.source);
+                                alert(response.error.step);
+                                alert(response.error.reason);
+                                alert(response.error.metadata.order_id);
+                                alert(response.error.metadata.payment_id);
+                        });
+                        function orderDone(e){
+                            rzp1.open();
+                            e.preventDefault();
+                        }
+                        document.getElementById('rzp-button1').onclick = function(e){
+                            rzp1.open();
+                            e.preventDefault();
+                        }
+                        </script>
+                            <script>
+                                function postData(payID, orderId, signature) {
+                                    const data = {
+                                        razorpay_payment_id: payID,
+                                        razorpay_order_id: orderId,
+                                        razorpay_signature: signature
+                                    };
+                        
+                                    fetch('http://localhost:8080/user/api/v1/verify-order', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(data)
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {if(data.success) alert("Payment Successful")})
+                                    .catch(error => console.error('Error:', error));
+                                }
+                            </script>
+                            <div id="orderIdGet" style="display: none;">{{orderId}}</div>
+                <!-- <div class="pt-3">
+                    <h1>Payments</h1>
+                    <p>Welcome to your Payment dashboard!</p>
+                    <div>
+                        
+                        <div id="orderIdGet" style="display: none;">{{orderId}}</div>
+                        <script> 
+                            document.getElementById('rzp-button1').style.backgroundColor='red';
+                        </script>
+                        <button id="rzp-button1">Pay with Razorpay</button>
+                        
+                        
+                        
+                    </div>
+                </div> -->
         </div>
     </div>
 
@@ -416,7 +668,7 @@
             </main>
         </div>
     </div> -->
-    <div id="myModal" class="modal" style="background-color: #333;">
+    <!-- <div id="myModal" class="modal" style="background-color: #333;">
         <span style="cursor:pointer; float:left; margin-left: 10px; color: aliceblue; background-color: red;font-weight: bolder; border-radius: 5%;" >Delete</span>
         <span class="close" style="cursor:pointer; float:right; margin-right: 10px; color: aliceblue; background-color: red;">&times;</span>
         <img class="modal-content" id="modalImage">
@@ -467,7 +719,7 @@ for (var i = 0; i < images.length; i++) {
 var closeButton = document.getElementsByClassName("close")[0];
 closeButton.onclick = function() {
     modal.style.display = "none";
-};
+}; -->
 
     </script>
     
