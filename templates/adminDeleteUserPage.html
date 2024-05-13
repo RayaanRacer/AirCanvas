@@ -352,7 +352,7 @@
                 </div>
                 <div class="left-bottom-2-new-file">
                     <i class="fa-solid fa-money-check-dollar"></i> &nbsp; <a style="font-family: Arial, Helvetica, sans-serif;
-                    color: rgb(206, 206, 206);text-decoration: none;" href="/payments">PAYMENT LIST</a>
+                    color: rgb(206, 206, 206);text-decoration: none;" href="/payment-list">PAYMENT LIST</a>
                 </div>
                 <div class="left-bottom-2-my-file">
                     <i class="fa-regular fa-bell"></i> &nbsp; Notification
@@ -420,27 +420,27 @@
                                         
                                     </div>
                                 </div>
-                                
-                            {% for item in users %}
-                                <div class="user-list-2">
-                                    <div class="user-list-name">
-                                        {{item['name']}} 
+                                    {% for item in users %}
+                                    <div class="user-list-2">
+                                        <div class="user-list-name">
+                                            {{item['name']}} 
+                                        </div>
+                                        <div class="user-list-email">
+                                            {{item['email']}} 
+                                        </div>
+                                        <div class="user-list-phone">
+                                            {{item['phone']}}
+                                        </div>
+                                        <div class="user-list-phone">
+                                            <form action="/delete-user" method="POST">
+                                                <input type="hidden" name="userId" value="{{item['_id']}}">
+                                                <input type="submit" value="Delete" style="background-color: #007bff; color: #fff; border-radius: 20px; padding: 5px; font-size: 13px;">
+                                            </form>
+                                        </div>
                                     </div>
-                                    <div class="user-list-email">
-                                        {{item['email']}} 
-                                    </div>
-                                    <div class="user-list-phone">
-                                        {{item['phone']}}
-                                    </div>
-                                    <div class="user-list-phone">
-                                        <form action="/delete-user" method="POST">
-                                            <input type="hidden" name="userId" value="{{item['_id']}}">
-                                            <input type="submit" value="Delete" style="background-color: #007bff; color: #fff; border-radius: 20px; padding: 5px; font-size: 13px;">
-                                        </form>
-                                    </div>
-                                </div>
-
-                            {% endfor %}
+    
+                                {% endfor %}
+                            
                         
                     </div>
                 </div>

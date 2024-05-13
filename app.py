@@ -22,10 +22,13 @@ def getImages(userID,name):
         if response.status_code == 200:
             # Login successful, redirect to video_feed
             data = response.json()
-            if 'img' not in session:
-                session['img'] = []
-            for item in data['imageURL']:
-                session['img'].append(item)
+            session['img'] = []
+            if 'imageURL' in data and 'success' in data:
+                for item in data['imageURL']:
+                    session['img'].append(item)
+            return session['img']
+            
+            
         else:
             # Login failed, show an error message
             return render_template('index.html', error='Invalid email or password')
@@ -75,8 +78,8 @@ def payments():
 def userDashboard():
     if 'userID' in session:
         # return redirect(url_for('userDashboard',email=session['email']))
-        getImages(session['userID'], session['name'])
-        return render_template('userDashboard.html',img=session['img'], name=session['name'], id =session['userID'] )
+        # getImages(session['userID'], session['name'])
+        return render_template('userDashboard.html',name=session['name'], id =session['userID'] )
     else:
         # Login failed, show an error message
         return render_template('index.html', error='Invalid email or password')

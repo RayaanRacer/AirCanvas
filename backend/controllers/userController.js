@@ -150,8 +150,8 @@ const imageSender = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Error no user id found" });
   const img = await imageModel.find({ user: userID });
   if (img.length === 0)
-    return res.status(200).json({ message: "No images drawn" });
-  return res.status(200).json({ imageURL: img });
+    return res.status(200).json({ message: "No images drawn", success: false });
+  return res.status(200).json({ imageURL: img, success: true });
 });
 
 const userImageUploader = asyncHandler(async (req, res) => {
@@ -278,7 +278,8 @@ const getPaymentList = asyncHandler(async (req, res) => {
   if (!userId) return res.status(400).json({ message: "Provide Doctor ID" });
   const paymentList = await Payment.find({ userId: userId })
     .select(" totalAmount paymentStatus paymentDate updatedAt")
-    .populate([{ path: "userId", select: "name phone" }]);
+    .populate([{ path: "userId", select: "name phone" }])
+    .sort({ createdAt: -1 });
   if (paymentList.length === 0)
     return res.status(200).json({ message: "No Payments found" });
   return res
